@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>imgs/logo.png</file>
+        <file>imgs/blankico.png</file>
+        <file>pcsx2s.ico</file>
+        <file>imgs/p2xicon.png</file>
+        <file>imgs/blankico2.png</file>
+        <file>imgs/blankico3.png</file>
+    </qresource>
+</RCC>
