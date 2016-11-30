@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <shellapi.h>
 #include <tlhelp32.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -26,23 +27,66 @@ string space2underscore(string text)
     return text;
 }
 
-//-----INITIALIZING GUI WINDOW-----//
+//---FUCNTION FOR CHECKING IF FILE OR DIRECTORY EXISTS---//
+
+inline bool FileStatus (const string& fileName)
+{
+  struct stat buffer;
+  return (stat (fileName.c_str(), &buffer) == 0);
+}
+
+//---------------INITIALIZING GUI---------------//
 
 PCSX2Steam::PCSX2Steam(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PCSX2Steam)
 {
     ui->setupUi(this);
+
     //setWindowFlags (Qt::FramelessWindowHint);
 
-    ///---------------TO DO: ERROR HANDLING---------------///
-    ///
-    ///-----Check if "Emulator" directory exists. If it doesn't, throw an error and close.
-    ///
-    ///-----Check if "compiler" directory exists. If it doesn't, throw an error and close.
-    ///
-    ///-----Check if "src" directory exists. If it doesn't, create it.
-    ///-----If it cannot be created, throw an error and close.
+    //-----Check if "Emulator" directory exists. If it doesn't, throw an error and close.
+
+    if (FileStatus("..\\Emulator") == 0)
+        {
+            QMessageBox msgBox;
+            msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
+            msgBox.setWindowTitle("\"Emulator\" Directory not found!");
+            msgBox.setText("\"..\\Emulator\" directory does not exist! Make sure your folder hierchy is correct. Please refer to the Readme.md");
+            msgBox.exec();
+            exit (EXIT_FAILURE);
+        }
+
+    //-----Check if "compiler" directory exists. If it doesn't, throw an error and close.
+
+    if (FileStatus("compiler") == 0)
+        {
+            QMessageBox msgBox;
+            msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
+            msgBox.setWindowTitle("\"compiler\" Directory not found!");
+            msgBox.setText("\"compiler\" directory does not exist! Make sure your compiler is installed in the correct directory and that your folder hierchy is correct. Please refer to the Readme.md");
+            msgBox.exec();
+            exit (EXIT_FAILURE);
+        }
+
+    //-----Check if "src" directory exists. If it doesn't, create it.
+    //-----If it cannot be created, throw an error and close.
+
+    string srcDir = "src";
+    if (CreateDirectoryA(srcDir.c_str(), NULL) ||
+        ERROR_ALREADY_EXISTS == GetLastError())
+    {
+        //---'src' created.
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
+        msgBox.setWindowTitle("Oops!");
+        msgBox.setText("Could not create 'src' directory. Exiting.");
+        msgBox.exec();
+        exit (EXIT_FAILURE);
+    }
 
 }
 
@@ -209,11 +253,18 @@ void PCSX2Steam::on_createButton_clicked()
 
         rename(exePath__cc,exePath_scc);
 
-    ///---Give user confirmation that everything went well and provide exe path---
+        QMessageBox msgBox;
+        msgBox.setIconPixmap(QPixmap(":/res/imgs/info.png"));
+        msgBox.setWindowTitle("All Done!");
+        msgBox.setText("#exeName_s has been successfuly created");
+        msgBox.exec();
 
     //-----CLEAR ALL INPUTS AND RESEST-----//
 
-    ///---Clear inputs for reuse---
+    ui->nameInput->setText("");
+    ui->iconInput->setText("");
+    ui->dirInput->setText("");
+    ui->iconPicBtn->setIcon(QIcon());
 
     //-----UNCOMMENT TO PROOF CHECK A STRING-----//
 
