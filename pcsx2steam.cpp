@@ -26,7 +26,7 @@ string space2underscore(string text)
     return text;
 }
 
-//-----SETTING UP AND CALLING GUI WINDOW-----//
+//-----INITIALIZING GUI WINDOW-----//
 
 PCSX2Steam::PCSX2Steam(QWidget *parent) :
     QMainWindow(parent),
@@ -34,6 +34,16 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
 {
     ui->setupUi(this);
     //setWindowFlags (Qt::FramelessWindowHint);
+
+    ///---------------TO DO: ERROR HANDLING---------------///
+    ///
+    ///-----Check if "Emulator" directory exists. If it doesn't, throw an error and close.
+    ///
+    ///-----Check if "compiler" directory exists. If it doesn't, throw an error and close.
+    ///
+    ///-----Check if "src" directory exists. If it doesn't, create it.
+    ///-----If it cannot be created, throw an error and close.
+
 }
 
 PCSX2Steam::~PCSX2Steam()
@@ -62,7 +72,7 @@ void PCSX2Steam::on_iconPicBtn_clicked()
         }
 }
 
-//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, .ETC) AND FILL INPUT BOX-----//
+//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, ETC) AND FILL INPUT BOX-----//
 
 void PCSX2Steam::on_dirBrowseBtn_clicked()
 {
@@ -84,6 +94,16 @@ void PCSX2Steam::on_dirBrowseBtn_clicked()
 
 void PCSX2Steam::on_createButton_clicked()
 {
+    ///---------------TO DO: ERROR HANDLING---------------///
+    ///
+    ///-----Check if "NAME" input is empty. If it is, throw an error.
+    ///-----Check if "NAME" input is valid (No ~`!@#$%^&*+=). If it' is's not, throw an error.
+    ///
+    ///-----Check if "GAME PATH" input is empty. If it is, throw an error.
+    ///-----Check if "GAME PATH" input is valid (No Spaces). If it' is's not, throw an error.
+    ///
+    ///-----Check if "ICON" input is empty. If it is, throw an alert and opt to continue or stop.
+
     //-----CREATE MAIN.CPP-----//
 
     QString GameDir_qs = ui->dirInput->text();
@@ -154,7 +174,7 @@ void PCSX2Steam::on_createButton_clicked()
         rcFile.close();
 
     //-----RETREIVING THE NAME, REMOVING SPACES (CMD FRIENDLY), & PLUGIN IT INTO COMPILER-----//
-    ///---COMPILER USED IS CODEBLOCKS MINGW32 WITH DEFAULT SETTINGS + RESOURCE.RC FOR ICON---///
+    //----COMPILER USED IS CODEBLOCKS MINGW32 WITH DEFAULT SETTINGS + RESOURCE.RC FOR ICON----//
 
     QString pcsxCompile1 = "cd compiler\\bin\\ && mingw32-g++.exe -Wall -fexceptions -O2 -c ..\\..\\src\\main.cpp -o ..\\..\\src\\main.o && windres.exe -J rc -O coff -i ..\\..\\src\\resources.rc -o ..\\..\\src\\resources.res && mingw32-g++.exe -o ..\\..\\..\\";
     QString PS2 = "[PS2]";
@@ -163,6 +183,7 @@ void PCSX2Steam::on_createButton_clicked()
     QString pcsxCompile2 = " ..\\..\\src\\main.o ..\\..\\src\\resources.res -s";
 
         //--REMOVE SPACES FROM NAME
+
         string pcsxName_ = space2underscore(pcsxName.toStdString());
         QString pcsxName_qs = QString::fromStdString(pcsxName_);
 
@@ -187,6 +208,12 @@ void PCSX2Steam::on_createButton_clicked()
     const char* exePath_scc = exeArray_s.data();
 
         rename(exePath__cc,exePath_scc);
+
+    ///---Give user confirmation that everything went well and provide exe path---
+
+    //-----CLEAR ALL INPUTS AND RESEST-----//
+
+    ///---Clear inputs for reuse---
 
     //-----UNCOMMENT TO PROOF CHECK A STRING-----//
 
