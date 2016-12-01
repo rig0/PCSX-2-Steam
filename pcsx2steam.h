@@ -22,6 +22,8 @@ private slots:
 
     void on_createButton_clicked();
 
+    void compileExe();
+
 private:
     Ui::PCSX2Steam *ui;
 };

@@ -13,27 +13,22 @@
 #include <tlhelp32.h>
 #include <sys/stat.h>
 
+
 using namespace std;
 
-//-----FUNCTION FOR REPLACING SPACES WITH UNDERSCORES-----//
 
-string space2underscore(string text)
-{
-    for(int i = 0; i < text.size(); i++)
-        {
-        if( isspace(text[i]) )
-            text[i] = '_';
-        }
-    return text;
-}
+//---------------DECLARING FUNCTIONS---------------//
 
-//---FUCNTION FOR CHECKING IF FILE OR DIRECTORY EXISTS---//
+inline bool FileStatus (const string& fileName);
 
-inline bool FileStatus (const string& fileName)
-{
-  struct stat buffer;
-  return (stat (fileName.c_str(), &buffer) == 0);
-}
+string replaceChar(string text, const char f, const char r);
+
+//bool chkForbiddenChar(string s);
+
+string ExePath();
+
+void compileExe();
+
 
 //---------------INITIALIZING GUI---------------//
 
@@ -50,10 +45,7 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     if (FileStatus("..\\Emulator") == 0)
         {
             QMessageBox msgBox;
-            msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
-            msgBox.setWindowTitle("\"Emulator\" Directory not found!");
-            msgBox.setText("\"..\\Emulator\" directory does not exist! Make sure your folder hierchy is correct. Please refer to the Readme.md");
-            msgBox.exec();
+            msgBox.critical(0,"\"Emulator\" Directory not found!","\"..\\Emulator\" directory does not exist! Please read the Readme file");
             exit (EXIT_FAILURE);
         }
 
@@ -62,10 +54,7 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     if (FileStatus("compiler") == 0)
         {
             QMessageBox msgBox;
-            msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
-            msgBox.setWindowTitle("\"compiler\" Directory not found!");
-            msgBox.setText("\"compiler\" directory does not exist! Make sure your compiler is installed in the correct directory and that your folder hierchy is correct. Please refer to the Readme.md");
-            msgBox.exec();
+            msgBox.critical(0,"\"compiler\" Directory not found!","\"compiler\" directory does not exist! Please read the Readme file");
             exit (EXIT_FAILURE);
         }
 
@@ -75,21 +64,17 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     string srcDir = "src";
     if (CreateDirectoryA(srcDir.c_str(), NULL) ||
         ERROR_ALREADY_EXISTS == GetLastError())
-    {
-        //---'src' created.
-    }
+        {
+            //---'src' created.
+        }
     else
-    {
-        QMessageBox msgBox;
-        msgBox.setIconPixmap(QPixmap(":/res/imgs/error.png"));
-        msgBox.setWindowTitle("Oops!");
-        msgBox.setText("Could not create 'src' directory. Exiting.");
-        msgBox.exec();
-        exit (EXIT_FAILURE);
-    }
+        {
+            QMessageBox msgBox;
+            msgBox.critical(0,"Oops!","Could not create 'src' directory. Exiting.");
+            exit (EXIT_FAILURE);
+        }
 
 }
-
 PCSX2Steam::~PCSX2Steam()
 {
     delete ui;
@@ -120,7 +105,7 @@ void PCSX2Steam::on_iconPicBtn_clicked()
 
 void PCSX2Steam::on_dirBrowseBtn_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),tr("PCSX2 Game Images (*.iso *.bin *.img)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Game Image"), QString(),tr("PCSX2 Game Images (*.iso *.bin *.img *.nrg *.mdf *.z *.z2 *.bz2 *.dump)"));
 
         if (!fileName.isEmpty()) {
             QFile file(fileName);
@@ -138,17 +123,127 @@ void PCSX2Steam::on_dirBrowseBtn_clicked()
 
 void PCSX2Steam::on_createButton_clicked()
 {
-    ///---------------TO DO: ERROR HANDLING---------------///
-    ///
-    ///-----Check if "NAME" input is empty. If it is, throw an error.
-    ///-----Check if "NAME" input is valid (No ~`!@#$%^&*+=). If it' is's not, throw an error.
-    ///
-    ///-----Check if "GAME PATH" input is empty. If it is, throw an error.
-    ///-----Check if "GAME PATH" input is valid (No Spaces). If it' is's not, throw an error.
-    ///
-    ///-----Check if "ICON" input is empty. If it is, throw an alert and opt to continue or stop.
+    //-----Check if "NAME" input is empty. If it is, throw an error.
 
-    //-----CREATE MAIN.CPP-----//
+    QString nameChk_qs = ui->nameInput->text();
+    //string nameChk_s = nameChk_qs.toStdString();
+
+        if ( nameChk_qs.toStdString() == "" )
+            {
+                QMessageBox msgBox;
+                msgBox.warning(0,"Error","Name field can't be left empty!");
+            }
+
+    ///-----Check if "NAME" input is valid (No \\/:?\"<>|*). If it' is's not, throw an error.
+    /*
+        if ( chkForbiddenChar(nameChk_qs.toStdString()))
+            {
+                QMessageBox msgBox;
+                msgBox.warning(0,"Error","Illegal character in Name field! ex. \\/:?\"<>|*");
+            }
+    */
+    ///-----Check if "GAME PATH" input is empty. If it is, throw an error.
+
+    QString direChk_qs = ui->dirInput->text();
+    string direChk_s = direChk_qs.toStdString();
+
+        if ( direChk_s == "" )
+            {
+                QMessageBox msgBox;
+                msgBox.warning(0,"Error","Path field can't be left empty!");
+            }
+
+    ///-----Check if "GAME PATH" input is valid (No Spaces). If it's not, throw an error.
+
+    //-----Check if "ICON" input is empty. If it is, throw an alert and opt to continue or stop.
+
+    QString iconChk_qs = ui->iconInput->text();
+    string iconChk_s = iconChk_qs.toStdString();
+
+        if ( iconChk_s == "" )
+            {
+            QMessageBox msgBox;
+            msgBox.setText("No Icon chosen.");
+            msgBox.setInformativeText("Are you sure you want to continue with no icon?");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::No);
+            int ret = msgBox.exec();
+
+                switch (ret)
+                    {
+                     case QMessageBox::Yes:
+                          {
+                                QFile::copy(":/res/imgs/noicon.ico" , "src/noicon.ico");
+                                string ic0Path = replaceChar(ExePath()+ "/src/noicon.ico",'\\','/');
+                                ui->iconInput->setText(QString::fromStdString(ic0Path));
+                                compileExe();
+                                break;
+                          }
+                     case QMessageBox::No:
+                          {
+                                //---do nothing
+                                break;
+                          }
+                    }
+            }
+        //compileExe();
+}
+
+//-------------------------------------------------------------------------//
+//--------------------------- F U N C T I O N S ---------------------------//
+//-------------------------------------------------------------------------//
+
+//-------------------STORES CURRENT DIRECTORY TO STRING--------------------//
+
+string ExePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileNameA( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    return string( buffer ).substr( 0, pos);
+}
+
+//-------------------CHECKS IF FILE OR DIRECTORY EXISTS--------------------//
+
+inline bool FileStatus (const string& fileName)
+{
+  struct stat buffer;
+  return (stat (fileName.c_str(), &buffer) == 0);
+}
+
+//-----------------REPLACES SPECIFIED CHARACTER IN STRING-----------------//
+
+string replaceChar(string text, const char f, const char r)
+{
+    for(int i = 0; i < text.size(); i++)
+        {
+        if( text[i] == f )
+            text[i] = r;
+        }
+    return text;
+}
+
+//--------------------CHECKS FOR FORBIDDEN CHARACTERS--------------------//
+/*
+bool chkForbiddenChar(string text)
+{
+    string illegalChars = "\\/:?\"<>|*";
+    for (int i = 0; i < text.size(); i++)
+    {
+        bool found = illegalChars.find(text) != string::npos;
+        if(found)
+        {
+            return true;
+            break;
+        }
+    }
+    return false;
+}
+*/
+//--------------------------COMPILES THE .EXE--------------------------//
+
+void PCSX2Steam::compileExe()
+{
+    //---------------CREATE MAIN.CPP---------------//
 
     QString GameDir_qs = ui->dirInput->text();
     const char* GameDir_cc = GameDir_qs.toLocal8Bit().constData();
@@ -177,7 +272,7 @@ void PCSX2Steam::on_createButton_clicked()
         cppFile << "}" << endl;
         cppFile.close();
 
-    //-----CREATE RESOURCES.RC-----//
+    //---------------CREATE RESOURCES.RC---------------//
 
     QString iconDir_qs = ui->iconInput->text();
     const char* iconDir_cc = iconDir_qs.toLocal8Bit().constData();
@@ -217,8 +312,7 @@ void PCSX2Steam::on_createButton_clicked()
         rcFile << "}" << endl;
         rcFile.close();
 
-    //-----RETREIVING THE NAME, REMOVING SPACES (CMD FRIENDLY), & PLUGIN IT INTO COMPILER-----//
-    //----COMPILER USED IS CODEBLOCKS MINGW32 WITH DEFAULT SETTINGS + RESOURCE.RC FOR ICON----//
+    //-----RETREIVING THE NAME, REMOVING SPACES FROM IT, & CREATING COMPILE COMMAND-----//
 
     QString pcsxCompile1 = "cd compiler\\bin\\ && mingw32-g++.exe -Wall -fexceptions -O2 -c ..\\..\\src\\main.cpp -o ..\\..\\src\\main.o && windres.exe -J rc -O coff -i ..\\..\\src\\resources.rc -o ..\\..\\src\\resources.res && mingw32-g++.exe -o ..\\..\\..\\";
     QString PS2 = "[PS2]";
@@ -226,10 +320,8 @@ void PCSX2Steam::on_createButton_clicked()
     QString EXE = ".exe";
     QString pcsxCompile2 = " ..\\..\\src\\main.o ..\\..\\src\\resources.res -s";
 
-        //--REMOVE SPACES FROM NAME
-
-        string pcsxName_ = space2underscore(pcsxName.toStdString());
-        QString pcsxName_qs = QString::fromStdString(pcsxName_);
+        //--Removing spaces from name to make compile command cmd friendly.
+        QString pcsxName_qs = QString::fromStdString(replaceChar(pcsxName.toStdString(),' ','_'));
 
     QString pcsxCompileCommand_qs = (pcsxCompile1 + PS2 + pcsxName_qs + EXE + pcsxCompile2);
     QByteArray array = pcsxCompileCommand_qs.toLocal8Bit();
@@ -241,35 +333,36 @@ void PCSX2Steam::on_createButton_clicked()
 
     //-----RENAME [PS2]LAUNCHER_NAME.EXE TO REMOVE UNDERSCORES-----//
 
-    QString exeDir = "..\\";
     QString exeName__ = PS2 + pcsxName_qs + EXE;
     QString exeName_s = PS2 + pcsxName + EXE;
-    QString exePath__ = exeDir + exeName__;
-    QString exePath_s = exeDir + exeName_s;
+    QString exePath__ = "..\\" + exeName__;
+    QString exePath_s = "..\\" + exeName_s;
     QByteArray exeArray__ = exePath__.toLocal8Bit().constData();;
     const char* exePath__cc = exeArray__.data();
     QByteArray exeArray_s = exePath_s.toLocal8Bit().constData();;
     const char* exePath_scc = exeArray_s.data();
 
-        rename(exePath__cc,exePath_scc);
+    rename(exePath__cc,exePath_scc);
 
-        QMessageBox msgBox;
-        msgBox.setIconPixmap(QPixmap(":/res/imgs/info.png"));
-        msgBox.setWindowTitle("All Done!");
-        msgBox.setText("#exeName_s has been successfuly created");
-        msgBox.exec();
+        //-----CONFIRM WHETHER .EXE WAS COMPILED SUCCESFULY OR NOT-----//
 
-    //-----CLEAR ALL INPUTS AND RESEST-----//
+        if ( FileStatus(exePath_s.toStdString()) == 0)
+            {
+                QMessageBox msgBox;
+                msgBox.critical(0,"Error","There was an unexpected error. Please contact Developer at RamboRigs90@gmail.com");
+            }
+        else
+            {
+                QMessageBox msgBox;
+                msgBox.information(0,"All Done!","Your [PS2]___.exe was successfuly created.");
 
-    ui->nameInput->setText("");
-    ui->iconInput->setText("");
-    ui->dirInput->setText("");
-    ui->iconPicBtn->setIcon(QIcon());
+                //-----CLEAR ALL FORMS-----//
 
-    //-----UNCOMMENT TO PROOF CHECK A STRING-----//
-
-        //ui->iconInput->setText(exePath__cc);
-        //ui->dirInput->setText(exePath_scc);
+                ui->nameInput->setText("");
+                ui->iconInput->setText("");
+                ui->dirInput->setText("");
+                ui->iconPicBtn->setIcon(QIcon());
+            }
 
 }
 

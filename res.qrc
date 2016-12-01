@@ -6,7 +6,6 @@
         <file>imgs/p2xicon.png</file>
         <file>imgs/blankico2.png</file>
         <file>imgs/blankico3.png</file>
-        <file>imgs/error.png</file>
-        <file>imgs/info.png</file>
+        <file>imgs/noicon.ico</file>
     </qresource>
 </RCC>
