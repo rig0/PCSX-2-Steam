@@ -30,7 +30,6 @@ public:
     QGraphicsView *logoDisplay;
     QLineEdit *nameInput;
     QLineEdit *iconInput;
-    QGraphicsView *iconPreview;
     QLabel *nameLabel;
     QLabel *iconLabel;
     QLabel *dirLabel;
@@ -39,6 +38,7 @@ public:
     QPushButton *createButton;
     QLabel *dirLabel_2;
     QPushButton *iconPicBtn;
+    QPushButton *resetButton;
 
     void setupUi(QMainWindow *PCSX2Steam)
     {
@@ -82,28 +82,24 @@ public:
         iconInput->setGeometry(QRect(140, 150, 205, 30));
         iconInput->setFont(font);
         iconInput->setStyleSheet(QStringLiteral("background-color: #ccc;"));
-        iconPreview = new QGraphicsView(centralWidget);
-        iconPreview->setObjectName(QStringLiteral("iconPreview"));
-        iconPreview->setGeometry(QRect(370, 100, 80, 80));
-        iconPreview->setStyleSheet(QStringLiteral("background-color: #ccc;"));
         nameLabel = new QLabel(centralWidget);
         nameLabel->setObjectName(QStringLiteral("nameLabel"));
-        nameLabel->setGeometry(QRect(50, 100, 81, 21));
+        nameLabel->setGeometry(QRect(60, 103, 71, 21));
         QFont font1;
         font1.setFamily(QStringLiteral("Calibri"));
-        font1.setPointSize(20);
+        font1.setPointSize(18);
         font1.setBold(true);
         font1.setWeight(75);
         nameLabel->setFont(font1);
         nameLabel->setStyleSheet(QStringLiteral("color: #45b9e2;"));
         iconLabel = new QLabel(centralWidget);
         iconLabel->setObjectName(QStringLiteral("iconLabel"));
-        iconLabel->setGeometry(QRect(60, 150, 71, 22));
+        iconLabel->setGeometry(QRect(70, 153, 51, 22));
         iconLabel->setFont(font1);
         iconLabel->setStyleSheet(QStringLiteral("color: #45b9e2;"));
         dirLabel = new QLabel(centralWidget);
         dirLabel->setObjectName(QStringLiteral("dirLabel"));
-        dirLabel->setGeometry(QRect(50, 200, 81, 22));
+        dirLabel->setGeometry(QRect(70, 203, 51, 22));
         dirLabel->setFont(font1);
         dirLabel->setStyleSheet(QStringLiteral("color: #45b9e2;"));
         dirInput = new QLineEdit(centralWidget);
@@ -113,7 +109,7 @@ public:
         dirInput->setStyleSheet(QStringLiteral("background-color: #ccc;"));
         dirBrowseBtn = new QPushButton(centralWidget);
         dirBrowseBtn->setObjectName(QStringLiteral("dirBrowseBtn"));
-        dirBrowseBtn->setGeometry(QRect(370, 200, 80, 30));
+        dirBrowseBtn->setGeometry(QRect(365, 200, 80, 30));
         dirBrowseBtn->setFont(font);
         dirBrowseBtn->setStyleSheet(QLatin1String("QPushButton#dirBrowseBtn\n"
 "{\n"
@@ -129,7 +125,7 @@ public:
 "}"));
         createButton = new QPushButton(centralWidget);
         createButton->setObjectName(QStringLiteral("createButton"));
-        createButton->setGeometry(QRect(210, 250, 80, 30));
+        createButton->setGeometry(QRect(250, 250, 80, 30));
         createButton->setFont(font);
         createButton->setStyleSheet(QLatin1String("QPushButton#createButton\n"
 "{\n"
@@ -155,7 +151,7 @@ public:
         dirLabel_2->setStyleSheet(QStringLiteral("color: #171717;"));
         iconPicBtn = new QPushButton(centralWidget);
         iconPicBtn->setObjectName(QStringLiteral("iconPicBtn"));
-        iconPicBtn->setGeometry(QRect(370, 100, 80, 80));
+        iconPicBtn->setGeometry(QRect(365, 100, 80, 80));
         iconPicBtn->setFont(font);
         iconPicBtn->setStyleSheet(QLatin1String("QPushButton#iconPicBtn\n"
 "{\n"
@@ -173,6 +169,22 @@ public:
 "   background-image: url(\":/res/imgs/blankico3.png\");\n"
 "}\n"
 ""));
+        resetButton = new QPushButton(centralWidget);
+        resetButton->setObjectName(QStringLiteral("resetButton"));
+        resetButton->setGeometry(QRect(160, 250, 80, 30));
+        resetButton->setFont(font);
+        resetButton->setStyleSheet(QLatin1String("QPushButton#resetButton\n"
+"{\n"
+"   background-color: #cccccc;\n"
+"}\n"
+"QPushButton:hover#resetButton\n"
+"{\n"
+"  background-color: #f1f1f1;\n"
+"}\n"
+"QPushButton:pressed#resetButton\n"
+"{\n"
+"   background-color: #45b9e2;\n"
+"}"));
         PCSX2Steam->setCentralWidget(centralWidget);
 
         retranslateUi(PCSX2Steam);
@@ -185,11 +197,12 @@ public:
         PCSX2Steam->setWindowTitle(QApplication::translate("PCSX2Steam", "PCSX 2 Steam", 0));
         nameLabel->setText(QApplication::translate("PCSX2Steam", "NAME", 0));
         iconLabel->setText(QApplication::translate("PCSX2Steam", "ICON", 0));
-        dirLabel->setText(QApplication::translate("PCSX2Steam", "GAME", 0));
+        dirLabel->setText(QApplication::translate("PCSX2Steam", "PATH", 0));
         dirBrowseBtn->setText(QApplication::translate("PCSX2Steam", "BROWSE", 0));
         createButton->setText(QApplication::translate("PCSX2Steam", "CREATE", 0));
         dirLabel_2->setText(QApplication::translate("PCSX2Steam", "D E S I G N E D   A N D   D E V E L O P E D   B Y   R A M B O R I G S", 0));
         iconPicBtn->setText(QString());
+        resetButton->setText(QApplication::translate("PCSX2Steam", "RESET", 0));
     } // retranslateUi
 
 };

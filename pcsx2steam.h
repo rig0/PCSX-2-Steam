@@ -24,6 +24,8 @@ private slots:
 
     void compileExe();
 
+    void on_resetButton_clicked();
+
 private:
     Ui::PCSX2Steam *ui;
 };

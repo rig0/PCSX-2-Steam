@@ -29,7 +29,6 @@ string ExePath();
 
 void compileExe();
 
-
 //---------------INITIALIZING GUI---------------//
 
 PCSX2Steam::PCSX2Steam(QWidget *parent) :
@@ -43,36 +42,20 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     //-----Check if "Emulator" directory exists. If it doesn't, throw an error and close.
 
     if (FileStatus("..\\Emulator") == 0)
-        {
-            QMessageBox msgBox;
-            msgBox.critical(0,"\"Emulator\" Directory not found!","\"..\\Emulator\" directory does not exist! Please read the Readme file");
-            exit (EXIT_FAILURE);
-        }
+    {
+        QMessageBox msgBox;
+        msgBox.critical(0,"\"Emulator\" Directory not found!","\"..\\Emulator\" directory does not exist! Please read the Readme file");
+        exit (EXIT_FAILURE);
+    }
 
     //-----Check if "compiler" directory exists. If it doesn't, throw an error and close.
 
     if (FileStatus("compiler") == 0)
-        {
-            QMessageBox msgBox;
-            msgBox.critical(0,"\"compiler\" Directory not found!","\"compiler\" directory does not exist! Please read the Readme file");
-            exit (EXIT_FAILURE);
-        }
-
-    //-----Check if "src" directory exists. If it doesn't, create it.
-    //-----If it cannot be created, throw an error and close.
-
-    string srcDir = "src";
-    if (CreateDirectoryA(srcDir.c_str(), NULL) ||
-        ERROR_ALREADY_EXISTS == GetLastError())
-        {
-            //---'src' created.
-        }
-    else
-        {
-            QMessageBox msgBox;
-            msgBox.critical(0,"Oops!","Could not create 'src' directory. Exiting.");
-            exit (EXIT_FAILURE);
-        }
+    {
+        QMessageBox msgBox;
+        msgBox.critical(0,"\"compiler\" Directory not found!","\"compiler\" directory does not exist! Please read the Readme file");
+        exit (EXIT_FAILURE);
+    }
 
 }
 PCSX2Steam::~PCSX2Steam()
@@ -80,127 +63,122 @@ PCSX2Steam::~PCSX2Steam()
     delete ui;
 }
 
-//-----BROWSE FOR ICON AND PREVIEW ON BUTTON-----//
+//---------BROWSE FOR ICON, PLACE PATH IN FORM AND PREVIEW ON BUTTON---------//
 
 void PCSX2Steam::on_iconPicBtn_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Icon"), QString(),tr("Icon (*.ico)"));
 
-        if (!fileName.isEmpty()) {
-            QFile file(fileName);
-            if (!file.open(QIODevice::ReadOnly)) {
-                QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
-                return;
-            }
-            QTextStream in(&file);
-            ui->iconInput->setText(fileName);
-            QString iconPreview = """" + fileName + """";
-            ui->iconPicBtn->setIcon(QIcon(iconPreview));
-            ui->iconPicBtn->setIconSize(QSize(80,80));
-            file.close();
+    if (!fileName.isEmpty())
+    {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
         }
+        QTextStream in(&file);
+        ui->iconInput->setText(fileName);
+        QString iconPreview = """" + fileName + """";
+        ui->iconPicBtn->setIcon(QIcon(iconPreview));
+        ui->iconPicBtn->setIconSize(QSize(80,80));
+        file.close();
+    }
 }
 
-//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, ETC) AND FILL INPUT BOX-----//
+//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, ETC) AND PLACE IN 'PATH' FORM-----//
 
 void PCSX2Steam::on_dirBrowseBtn_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Game Image"), QString(),tr("PCSX2 Game Images (*.iso *.bin *.img *.nrg *.mdf *.z *.z2 *.bz2 *.dump)"));
 
-        if (!fileName.isEmpty()) {
-            QFile file(fileName);
-            if (!file.open(QIODevice::ReadOnly)) {
-                QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
-                return;
-            }
-            QTextStream in(&file);
-            ui->dirInput->setText(fileName);
-            file.close();
+    if (!fileName.isEmpty())
+    {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
         }
+        QTextStream in(&file);
+        ui->dirInput->setText(fileName);
+        file.close();
+    }
 }
 
-//-----BEGIN CREATING SHORTCUT-----//
+//------------------------BEGIN CREATING SHORTCUT------------------------//
 
 void PCSX2Steam::on_createButton_clicked()
 {
     //-----Check if "NAME" input is empty. If it is, throw an error.
 
     QString nameChk_qs = ui->nameInput->text();
-    //string nameChk_s = nameChk_qs.toStdString();
 
-        if ( nameChk_qs.toStdString() == "" )
-            {
-                QMessageBox msgBox;
-                msgBox.warning(0,"Error","Name field can't be left empty!");
-            }
+    if ( nameChk_qs.toStdString() == "" )
+    {
+        QMessageBox msgBox;
+        msgBox.warning(0,"Error","Name field can't be left empty!");
+        return;
+    }
 
-    ///-----Check if "NAME" input is valid (No \\/:?\"<>|*). If it' is's not, throw an error.
+    ///-----To Do: Check if "NAME" input is valid (No \\/:?\"<>|*). If it' is's not, throw an error.
     /*
         if ( chkForbiddenChar(nameChk_qs.toStdString()))
             {
                 QMessageBox msgBox;
                 msgBox.warning(0,"Error","Illegal character in Name field! ex. \\/:?\"<>|*");
+                return;
             }
     */
-    ///-----Check if "GAME PATH" input is empty. If it is, throw an error.
+    //-----Check if "GAME PATH" input is empty. If it is, throw an error.
 
     QString direChk_qs = ui->dirInput->text();
-    string direChk_s = direChk_qs.toStdString();
 
-        if ( direChk_s == "" )
-            {
-                QMessageBox msgBox;
-                msgBox.warning(0,"Error","Path field can't be left empty!");
-            }
+    if ( direChk_qs.toStdString() == "" )
+    {
+        QMessageBox msgBox;
+        msgBox.warning(0,"Error","Path field can't be left empty!");
+        return;
+    }
 
-    ///-----Check if "GAME PATH" input is valid (No Spaces). If it's not, throw an error.
+    ///-----To Do: Check if "GAME PATH" input is valid (No Spaces). If it's not, throw an error.
 
     //-----Check if "ICON" input is empty. If it is, throw an alert and opt to continue or stop.
 
     QString iconChk_qs = ui->iconInput->text();
-    string iconChk_s = iconChk_qs.toStdString();
 
-        if ( iconChk_s == "" )
-            {
-            QMessageBox msgBox;
-            msgBox.setText("No Icon chosen.");
-            msgBox.setInformativeText("Are you sure you want to continue with no icon?");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::No);
-            int ret = msgBox.exec();
+    if ( iconChk_qs.toStdString() == "" )
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setText("No Icon chosen.");
+        msgBox.setInformativeText("Are you sure you want to continue with no icon?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        int ret = msgBox.exec();
 
-                switch (ret)
-                    {
-                     case QMessageBox::Yes:
-                          {
-                                QFile::copy(":/res/imgs/noicon.ico" , "src/noicon.ico");
-                                string ic0Path = replaceChar(ExePath()+ "/src/noicon.ico",'\\','/');
-                                ui->iconInput->setText(QString::fromStdString(ic0Path));
-                                compileExe();
-                                break;
-                          }
-                     case QMessageBox::No:
-                          {
-                                //---do nothing
-                                break;
-                          }
-                    }
-            }
-        //compileExe();
+        switch (ret)
+        {
+        case QMessageBox::Yes:
+        {
+            QFile::copy(":/res/imgs/noicon.ico" , "src/noicon.ico");
+            string ic0Path = replaceChar(ExePath()+ "/src/noicon.ico",'\\','/');
+            ui->iconInput->setText(QString::fromStdString(ic0Path));
+            break;
+        }
+        case QMessageBox::No:
+        {
+            break;
+            return;
+        }
+        }
+    }
+        compileExe();
 }
 
 //-------------------------------------------------------------------------//
 //--------------------------- F U N C T I O N S ---------------------------//
 //-------------------------------------------------------------------------//
-
-//-------------------STORES CURRENT DIRECTORY TO STRING--------------------//
-
-string ExePath() {
-    char buffer[MAX_PATH];
-    GetModuleFileNameA( NULL, buffer, MAX_PATH );
-    string::size_type pos = string( buffer ).find_last_of( "\\/" );
-    return string( buffer ).substr( 0, pos);
-}
 
 //-------------------CHECKS IF FILE OR DIRECTORY EXISTS--------------------//
 
@@ -215,14 +193,23 @@ inline bool FileStatus (const string& fileName)
 string replaceChar(string text, const char f, const char r)
 {
     for(int i = 0; i < text.size(); i++)
-        {
-        if( text[i] == f )
+    {
+        if(text[i] == f)
             text[i] = r;
-        }
+    }
     return text;
 }
 
-//--------------------CHECKS FOR FORBIDDEN CHARACTERS--------------------//
+//------------------STORES CURRENT DIRECTORY TO STRING------------------//
+
+string ExePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileNameA( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    return string( buffer ).substr( 0, pos);
+}
+
+//-------------------CHECKS FOR FORBIDDEN CHARACTERS--------------------//
 /*
 bool chkForbiddenChar(string text)
 {
@@ -239,10 +226,26 @@ bool chkForbiddenChar(string text)
     return false;
 }
 */
-//--------------------------COMPILES THE .EXE--------------------------//
+//---------------------------COMPILES THE .EXE-------------------------//
 
 void PCSX2Steam::compileExe()
 {
+    //-----Check if "src" directory exists. If it doesn't, create it.
+    //-----If it cannot be created, throw an error and close.
+
+    string srcDir = "src";
+    if (CreateDirectoryA(srcDir.c_str(), NULL) ||
+            ERROR_ALREADY_EXISTS == GetLastError())
+    {
+        //---'src' created.
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.critical(0,"Oops!","Could not create temporary directory. Exiting.");
+        exit (EXIT_FAILURE);
+    }
+
     //---------------CREATE MAIN.CPP---------------//
 
     QString GameDir_qs = ui->dirInput->text();
@@ -346,23 +349,29 @@ void PCSX2Steam::compileExe()
 
         //-----CONFIRM WHETHER .EXE WAS COMPILED SUCCESFULY OR NOT-----//
 
-        if ( FileStatus(exePath_s.toStdString()) == 0)
-            {
-                QMessageBox msgBox;
-                msgBox.critical(0,"Error","There was an unexpected error. Please contact Developer at RamboRigs90@gmail.com");
-            }
-        else
-            {
-                QMessageBox msgBox;
-                msgBox.information(0,"All Done!","Your [PS2]___.exe was successfuly created.");
+    if ( FileStatus(exePath_s.toStdString()) == 0)
+    {
+        QMessageBox msgBox;
+        msgBox.critical(0,"Error","There was an error compiling. "
+                                "\n\nHint: Make sure there are no illegal characters in the Name field \n\nex. \\ / : ? \" < > | * )");
+    }
+    else
+    {
+        QString msg = exeName_s + " was successfuly created.";
+        QMessageBox msgBox;
+        msgBox.information(0,"All Done!",msg);
 
-                //-----CLEAR ALL FORMS-----//
+        //-----CLEAR ALL FORMS-----//
 
-                ui->nameInput->setText("");
-                ui->iconInput->setText("");
-                ui->dirInput->setText("");
-                ui->iconPicBtn->setIcon(QIcon());
-            }
+        on_resetButton_clicked();
+    }
 
 }
 
+void PCSX2Steam::on_resetButton_clicked()
+{
+    ui->nameInput->setText("");
+    ui->iconInput->setText("");
+    ui->dirInput->setText("");
+    ui->iconPicBtn->setIcon(QIcon());
+}

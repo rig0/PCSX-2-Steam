@@ -92,32 +92,19 @@ border-style: 0px;
      <string notr="true">background-color: #ccc;</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="iconPreview">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>100</y>
-      <width>80</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #ccc;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="nameLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>100</y>
-      <width>81</width>
+      <x>60</x>
+      <y>103</y>
+      <width>71</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Calibri</family>
-      <pointsize>20</pointsize>
+      <pointsize>18</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -132,16 +119,16 @@ border-style: 0px;
    <widget class="QLabel" name="iconLabel">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>150</y>
-      <width>71</width>
+      <x>70</x>
+      <y>153</y>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Calibri</family>
-      <pointsize>20</pointsize>
+      <pointsize>18</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -156,16 +143,16 @@ border-style: 0px;
    <widget class="QLabel" name="dirLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>200</y>
-      <width>81</width>
+      <x>70</x>
+      <y>203</y>
+      <width>51</width>
       <height>22</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Calibri</family>
-      <pointsize>20</pointsize>
+      <pointsize>18</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -174,7 +161,7 @@ border-style: 0px;
      <string notr="true">color: #45b9e2;</string>
     </property>
     <property name="text">
-     <string>GAME</string>
+     <string>PATH</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="dirInput">
@@ -199,7 +186,7 @@ border-style: 0px;
    <widget class="QPushButton" name="dirBrowseBtn">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>365</x>
       <y>200</y>
       <width>80</width>
       <height>30</height>
@@ -232,7 +219,7 @@ QPushButton:pressed#dirBrowseBtn
    <widget class="QPushButton" name="createButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>250</x>
       <y>250</y>
       <width>80</width>
       <height>30</height>
@@ -289,7 +276,7 @@ QPushButton:pressed#createButton
    <widget class="QPushButton" name="iconPicBtn">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>365</x>
       <y>100</y>
       <width>80</width>
       <height>80</height>
@@ -321,6 +308,39 @@ QPushButton:pressed#iconPicBtn
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="resetButton">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>250</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#resetButton
+{
+   background-color: #cccccc;
+}
+QPushButton:hover#resetButton
+{
+  background-color: #f1f1f1;
+}
+QPushButton:pressed#resetButton
+{
+   background-color: #45b9e2;
+}</string>
+    </property>
+    <property name="text">
+     <string>RESET</string>
     </property>
    </widget>
   </widget>
