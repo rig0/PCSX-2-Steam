@@ -355,6 +355,8 @@ void PCSX2Steam::compileExe()
 
 }
 
+//-----RESET BUTTON TO CLEAR ALL FORMS-----//
+
 void PCSX2Steam::on_resetButton_clicked()
 {
     ui->nameInput->setText("");
