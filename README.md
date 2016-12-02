@@ -58,7 +58,7 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 ####DONE!
 
-####The launcher can be found in the Emulators 'Home' folder. (ex. [PS2]Game Name.exe )
+####The launcher can be found in the emulators 'Home' folder. (ex. [PS2]Game Name.exe )
 
 ####It's as simple as that. You can repeat the process for all your games and add them to your steam library!
 
