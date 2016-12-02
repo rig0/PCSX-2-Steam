@@ -56,7 +56,7 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 4. Click the **'CREATE'** button to compile your game auncher.exe
 
-![alt text](https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/prvw.png "Program Preview")
+![alt text](https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/prevw.png "Program Preview")
 
 ####DONE!
 
