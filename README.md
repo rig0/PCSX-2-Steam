@@ -36,11 +36,11 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 ![alt text](https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/folders.png "Folder Hierchy")
    
-2. Copy your emulator and its files to the 'Emulator' folder. 
+2. Move your emulator and its files to the 'Emulator' folder. 
 
 3. Rename the pcsx2-xxxx.exe to pcsx2.exe
 
-4. Copy your ROMs to 'Games' folder
+4. Move your ROMs to 'Games' folder
 
 5. Extract the contents of the included .zip file to the 'PCSX2Steam' folder
    
