@@ -66,7 +66,7 @@ In order for this program to work correctly the folder hierarchy must be as foll
 --------------------
 - The Game/ROM path **CANNOT** have spaces! Make sure your game paths and names comply. (ex. G:/PS2/Games/God_of_War.iso)
 
-- If ROM's are moved after the launcher is made, the launcher will no longer work. You'll have to create a new launcher with the ROM's new location
+- If ROM's are moved after the launcher is made, the launcher will no longer work. You'll have to create a new launcher linking to the ROM's new location
 
 
 **Contact Me**
