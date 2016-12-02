@@ -13,9 +13,7 @@
 #include <tlhelp32.h>
 #include <sys/stat.h>
 
-
 using namespace std;
-
 
 //---------------DECLARING FUNCTIONS---------------//
 
@@ -163,12 +161,11 @@ void PCSX2Steam::on_createButton_clicked()
         }
         case QMessageBox::No:
         {
-            break;
             return;
         }
         }
     }
-        compileExe();
+    compileExe();
 }
 
 //-------------------------------------------------------------------------//
