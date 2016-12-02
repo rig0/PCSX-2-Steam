@@ -199,7 +199,7 @@ public:
         PCSX2Steam->setWindowTitle(QApplication::translate("PCSX2Steam", "PCSX 2 Steam", 0));
         nameLabel->setText(QApplication::translate("PCSX2Steam", "NAME", 0));
         iconLabel->setText(QApplication::translate("PCSX2Steam", "ICON", 0));
-        dirLabel->setText(QApplication::translate("PCSX2Steam", "PATH", 0));
+        dirLabel->setText(QApplication::translate("PCSX2Steam", "ROM", 0));
         dirBrowseBtn->setText(QApplication::translate("PCSX2Steam", "BROWSE", 0));
         createButton->setText(QApplication::translate("PCSX2Steam", "CREATE", 0));
         dirLabel_2->setText(QApplication::translate("PCSX2Steam", "D E S I G N E D   A N D   D E V E L O P E D   B Y   R A M B O R I G S", 0));

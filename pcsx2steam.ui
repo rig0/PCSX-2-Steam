@@ -173,7 +173,7 @@ border-style: 0px;
      <string notr="true">color: #45b9e2;</string>
     </property>
     <property name="text">
-     <string>PATH</string>
+     <string>ROM</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="dirInput">
