@@ -28,7 +28,7 @@
 
 **Installation**
 ----------------
-*In order for this program to work correctly the folder hierchy must be as follows.*
+In order for this program to work correctly the folder hierchy must be as follows.
 
 1. Please create the following folders and subfolders:
 
@@ -50,7 +50,8 @@
 
 5. Extract the included .zip file to the 'PCSX2Steam' folder
    
-###Important Notes:###
+Important Notes
+----------------------
 
 - The Game/ROM path CANNOT have spaces! Make sure your game paths and names comply. (ex. G:/Playstation2/Games/God_of_War.iso)
 
@@ -69,11 +70,11 @@
 
 4. Click the 'CREATE' button to compile yourl game auncher.exe
 
-DONE!
+####DONE!
 
-The launcher can be found in the Emulators 'Home' folder. ex.( [PS2]Game Name.exe )
+####The launcher can be found in the Emulators 'Home' folder. ex.( [PS2]Game Name.exe )
 
-It's as simple as that. You can repeat the process for all your games and add them to your steam library!
+####It's as simple as that. You can repeat the process for all your games and add them to your steam library!
 
 **Contact Me**
 ---------------
