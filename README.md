@@ -4,7 +4,7 @@
 
 --------------
 <p align="center">
-PCSX 2 Steam is a tool for creating a small program that seamlessly launches a specific Playstation 2 ROM. These small programs, that I refer to as 'launchers', can be added to steam as a game which gives us some advantages.
+PCSX 2 Steam is a tool for creating a small program that seamlessly launches a specific Playstation 2 ROM. These small programs, that I refer to as 'launchers', can then be added to steam as a game.
 </p>
 -----------------------------------------------------------------------------
 **Brief Rundown**
@@ -55,6 +55,8 @@ In order for this program to work correctly the folder hierarchy must be as foll
 4. Click the **'BROWSE'** button to select a game ROM
 
 4. Click the **'CREATE'** button to compile your game auncher.exe
+
+![alt text](https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/preview.png "Program Preview")
 
 ####DONE!
 
