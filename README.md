@@ -50,9 +50,9 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 2. Enter the game's title in the **'NAME'** field
 
-3. Click on the **'ICON'** button to browse for an icon. (You can opt to not use a custom icon and a generic icon will be used.)
+3. Click on the **'ICON'** button to browse for an icon. *(You can opt to not use a custom icon and a generic icon will be used.)*
 
-4. Click the **'BROWSE'** button to select a game ROM path
+4. Click the **'BROWSE'** button to select a game ROM
 
 4. Click the **'CREATE'** button to compile your game auncher.exe
 
