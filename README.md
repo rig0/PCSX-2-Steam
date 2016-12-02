@@ -54,7 +54,7 @@ In order for this program to work correctly the folder hierchy must be as follow
 
 3. Click on the 'ICON' button to browse for an icon. (You can opt to not use a custom icon and a generic icon will be used.)
 
-4. Click the 'Browse' button to select a game ROM path
+4. Click the 'BROWSE' button to select a game ROM path
 
 4. Click the 'CREATE' button to compile yourl game auncher.exe
 
