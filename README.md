@@ -4,7 +4,7 @@
 
 --------------
 <p align="center">
-Creates an executable of your Playstation 2 games that plays nice with Steam. 
+PCSX 2 Steam is a tool for creating a small program that seamlessly launches a specific Playstation 2 ROM. These small programs, that I refer to as 'launchers', can be added to steam as a game which gives us some advantages.
 </p>
 -----------------------------------------------------------------------------
 **Brief Rundown**
