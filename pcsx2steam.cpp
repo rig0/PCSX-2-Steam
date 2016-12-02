@@ -21,9 +21,9 @@ using namespace std;
 
 inline bool FileStatus (const string& fileName);
 
-string replaceChar(string text, const char f, const char r);
+bool isItInvalid(string inputText,string illegalChars);
 
-//bool chkForbiddenChar(string s);
+string replaceChar(string text, const char f, const char r);
 
 string ExePath();
 
@@ -37,9 +37,7 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //setWindowFlags (Qt::FramelessWindowHint);
-
-    //-----Check if "Emulator" directory exists. If it doesn't, throw an error and close.
+    //-----CHECK IF 'EMULATOR' FOLDER EXISTS-----//
 
     if (FileStatus("..\\Emulator") == 0)
     {
@@ -48,7 +46,7 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
         exit (EXIT_FAILURE);
     }
 
-    //-----Check if "compiler" directory exists. If it doesn't, throw an error and close.
+    //-----CHECK IF 'COMPILER' FOLDER EXISTS-----//
 
     if (FileStatus("compiler") == 0)
     {
@@ -110,44 +108,41 @@ void PCSX2Steam::on_dirBrowseBtn_clicked()
 
 void PCSX2Steam::on_createButton_clicked()
 {
-    //-----Check if "NAME" input is empty. If it is, throw an error.
+    //---------------CONFIRM 'NAME' FIELD IS VALID---------------//
 
-    QString nameChk_qs = ui->nameInput->text();
-
-    if ( nameChk_qs.toStdString() == "" )
+    if ( ui->nameInput->text().toStdString() == "" )
     {
         QMessageBox msgBox;
         msgBox.warning(0,"Error","Name field can't be left empty!");
         return;
     }
 
-    ///-----To Do: Check if "NAME" input is valid (No \\/:?\"<>|*). If it' is's not, throw an error.
-    /*
-        if ( chkForbiddenChar(nameChk_qs.toStdString()))
-            {
-                QMessageBox msgBox;
-                msgBox.warning(0,"Error","Illegal character in Name field! ex. \\/:?\"<>|*");
-                return;
-            }
-    */
-    //-----Check if "GAME PATH" input is empty. If it is, throw an error.
+    if(isItInvalid(ui->nameInput->text().toStdString(),"\\/:*?\"<>|"))
+    {
+        QMessageBox msgBox;
+        msgBox.warning(0,"Error","Illegal character in Name field! ex. \\ / : * ? \" < > | ");
+        return;
+    }
 
-    QString direChk_qs = ui->dirInput->text();
+    //---------------CONFIRM 'PATH' FIELD IS VALID---------------//
 
-    if ( direChk_qs.toStdString() == "" )
+    if ( ui->dirInput->text().toStdString() == "" )
     {
         QMessageBox msgBox;
         msgBox.warning(0,"Error","Path field can't be left empty!");
         return;
     }
 
-    ///-----To Do: Check if "GAME PATH" input is valid (No Spaces). If it's not, throw an error.
+    if(isItInvalid(ui->dirInput->text().toStdString()," "))
+    {
+        QMessageBox msgBox;
+        msgBox.warning(0,"Error","The path to the game rom image can't have spaces in it. \n\nPlease refer to the 'Notes' section in the ReadMe file");
+        return;
+    }
 
-    //-----Check if "ICON" input is empty. If it is, throw an alert and opt to continue or stop.
+    //---------------CONFIRM 'ICON' FIELD IS VALID---------------//
 
-    QString iconChk_qs = ui->iconInput->text();
-
-    if ( iconChk_qs.toStdString() == "" )
+    if ( ui->iconInput->text().toStdString() == "" )
     {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Question);
@@ -180,7 +175,7 @@ void PCSX2Steam::on_createButton_clicked()
 //--------------------------- F U N C T I O N S ---------------------------//
 //-------------------------------------------------------------------------//
 
-//-------------------CHECKS IF FILE OR DIRECTORY EXISTS--------------------//
+//--------------CHECKS IF FILE OR DIRECTORY EXISTS---------------//
 
 inline bool FileStatus (const string& fileName)
 {
@@ -188,7 +183,20 @@ inline bool FileStatus (const string& fileName)
   return (stat (fileName.c_str(), &buffer) == 0);
 }
 
-//-----------------REPLACES SPECIFIED CHARACTER IN STRING-----------------//
+//---------------CHECKS FOR INVALID CHARACTERS----------------//
+
+bool isItInvalid(string inputText,string illegalChars)
+{
+    for (int i = 0; i < inputText.size(); i++)
+    {
+        bool found = illegalChars.find(inputText[i]) != string::npos;
+        if (found){
+        return true;}
+    }
+    return false;
+}
+
+//------------REPLACES SPECIFIED CHARACTER IN STRING------------//
 
 string replaceChar(string text, const char f, const char r)
 {
@@ -200,7 +208,7 @@ string replaceChar(string text, const char f, const char r)
     return text;
 }
 
-//------------------STORES CURRENT DIRECTORY TO STRING------------------//
+//-------------STORES CURRENT DIRECTORY TO STRING-------------//
 
 string ExePath() {
     char buffer[MAX_PATH];
@@ -209,24 +217,7 @@ string ExePath() {
     return string( buffer ).substr( 0, pos);
 }
 
-//-------------------CHECKS FOR FORBIDDEN CHARACTERS--------------------//
-/*
-bool chkForbiddenChar(string text)
-{
-    string illegalChars = "\\/:?\"<>|*";
-    for (int i = 0; i < text.size(); i++)
-    {
-        bool found = illegalChars.find(text) != string::npos;
-        if(found)
-        {
-            return true;
-            break;
-        }
-    }
-    return false;
-}
-*/
-//---------------------------COMPILES THE .EXE-------------------------//
+//----------------------COMPILES THE .EXE--------------------//
 
 void PCSX2Steam::compileExe()
 {
@@ -275,7 +266,7 @@ void PCSX2Steam::compileExe()
         cppFile << "}" << endl;
         cppFile.close();
 
-    //---------------CREATE RESOURCES.RC---------------//
+    //-------------CREATE RESOURCES.RC------------//
 
     QString iconDir_qs = ui->iconInput->text();
     const char* iconDir_cc = iconDir_qs.toLocal8Bit().constData();
@@ -323,8 +314,7 @@ void PCSX2Steam::compileExe()
     QString EXE = ".exe";
     QString pcsxCompile2 = " ..\\..\\src\\main.o ..\\..\\src\\resources.res -s";
 
-        //--Removing spaces from name to make compile command cmd friendly.
-        QString pcsxName_qs = QString::fromStdString(replaceChar(pcsxName.toStdString(),' ','_'));
+    QString pcsxName_qs = QString::fromStdString(replaceChar(pcsxName.toStdString(),' ','_'));
 
     QString pcsxCompileCommand_qs = (pcsxCompile1 + PS2 + pcsxName_qs + EXE + pcsxCompile2);
     QByteArray array = pcsxCompileCommand_qs.toLocal8Bit();
@@ -332,7 +322,7 @@ void PCSX2Steam::compileExe()
 
     //-----BEGIN COMPILING MAIN.CPP & RESOURCES.RC | CREATES .EXE-----//
 
-        system(pcsxCompileCommand_cc);
+    system(pcsxCompileCommand_cc);
 
     //-----RENAME [PS2]LAUNCHER_NAME.EXE TO REMOVE UNDERSCORES-----//
 
@@ -347,7 +337,7 @@ void PCSX2Steam::compileExe()
 
     rename(exePath__cc,exePath_scc);
 
-        //-----CONFIRM WHETHER .EXE WAS COMPILED SUCCESFULY OR NOT-----//
+    //-----CONFIRM IF .EXE WAS COMPILED SUCCESFULY-----//
 
     if ( FileStatus(exePath_s.toStdString()) == 0)
     {
