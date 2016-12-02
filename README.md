@@ -3,9 +3,9 @@
 </p>
 
 --------------
-
-*Creates an executable of your Playstation 2 games that plays nice with Steam.* 
-
+<p align="center">
+Creates an executable of your Playstation 2 games that plays nice with Steam. 
+</p>
 -----------------------------------------------------------------------------
 **Brief Rundown**
 -----------------------------------------------------------------------------
