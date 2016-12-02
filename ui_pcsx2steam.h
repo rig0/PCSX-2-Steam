@@ -50,6 +50,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PCSX2Steam->sizePolicy().hasHeightForWidth());
         PCSX2Steam->setSizePolicy(sizePolicy);
+        PCSX2Steam->setMinimumSize(QSize(500, 320));
+        PCSX2Steam->setMaximumSize(QSize(500, 320));
         PCSX2Steam->setStyleSheet(QLatin1String("background-color: rgb(51, 51, 51);\n"
 "border-style: 0px; \n"
 "/*background-image: url(\":/res/imgs/bg.png\");*/\n"
