@@ -49,7 +49,7 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     if (FileStatus("..\\Emulator\\pcsx2.exe") == 0)
     {
         QMessageBox msgBox;
-        msgBox.critical(0,"\"pcsx2.exe\" not found!","\"pcsx2.exe\" not found! \n\nMake sure your folder hierarchy is correct. Please refer to the ReadMe file.");
+        msgBox.critical(0,"Emulator not found!","\"pcsx2.exe\" not found! \n\nMake sure your folder hierarchy is correct. Please refer to the ReadMe file.");
         exit (EXIT_FAILURE);
     }
 
@@ -91,7 +91,7 @@ void PCSX2Steam::on_iconPicBtn_clicked()
     }
 }
 
-//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, ETC) AND PLACE IN 'PATH' FORM-----//
+//-----BROWSE FOR GAME IMAGE (.ISO, .BIN, ETC) AND PLACE IN 'ROM' FORM-----//
 
 void PCSX2Steam::on_dirBrowseBtn_clicked()
 {
@@ -120,30 +120,30 @@ void PCSX2Steam::on_createButton_clicked()
     if ( ui->nameInput->text().toStdString() == "" )
     {
         QMessageBox msgBox;
-        msgBox.warning(0,"Error","Name field can't be left empty!");
+        msgBox.warning(0,"Warning","Name field can't be left empty!");
         return;
     }
 
     if(isItInvalid(ui->nameInput->text().toStdString(),"\\/:*?\"<>|"))
     {
         QMessageBox msgBox;
-        msgBox.warning(0,"Error","Illegal character in Name field! ex. \\ / : * ? \" < > | ");
+        msgBox.warning(0,"Warning","Illegal character in Name field! ex. \\ / : * ? \" < > | ");
         return;
     }
 
-    //---------------CONFIRM 'PATH' FIELD IS VALID---------------//
+    //---------------CONFIRM 'ROM' FIELD IS VALID---------------//
 
     if ( ui->dirInput->text().toStdString() == "" )
     {
         QMessageBox msgBox;
-        msgBox.warning(0,"Error","Path field can't be left empty!");
+        msgBox.warning(0,"Warning","'ROM' field can't be left empty!");
         return;
     }
 
     if(isItInvalid(ui->dirInput->text().toStdString()," "))
     {
         QMessageBox msgBox;
-        msgBox.warning(0,"Error","The path to the game rom image can't have spaces in it. \n\nPlease refer to the 'Notes' section in the ReadMe file");
+        msgBox.warning(0,"Warning","The path to the game rom image can't have spaces in it. \n\nPlease refer to the 'Notes' section in the ReadMe file");
         return;
     }
 
