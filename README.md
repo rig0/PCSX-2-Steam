@@ -1,4 +1,7 @@
-#PCSX-2-Steam
+<p align="center">
+  <img src="https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/logo2.png">
+</p>
+
 --------------
 
 *Creates an executable of your Playstation 2 games that plays nice with Steam.* 
@@ -32,15 +35,7 @@ In order for this program to work correctly the folder hierchy must be as follow
 
 1. Please create the following folders and subfolders:
 
---PS2                   <---We'll refer to this as our emulator's 'Home' folder. (Can be named anything you like. No SPACES!)
-   |
-   |----|--Emulator     <---Your pcsx2.exe emulator and files.  
-   |    |
-   |    |--Games        <---Your Game ROM's
-   |    |
-   |    |--PCSX2Steam   <---This program goes in this folder
-   |
-   |----Your launchers will be here once created in the following format [PS2]Game Name.exe
+![alt text](https://github.com/rig0/PCSX-2-Steam/blob/master/imgs/folders.png "Folder Hierchy")
    
 2. Copy your emulator and its files to the 'Emulator' folder. 
 
