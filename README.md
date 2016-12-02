@@ -31,7 +31,7 @@
 
 **Installation**
 ----------------
-In order for this program to work correctly the folder hierchy must be as follows.
+In order for this program to work correctly the folder hierarchy must be as follows.
 
 1. Please create the following folders and subfolders:
 
