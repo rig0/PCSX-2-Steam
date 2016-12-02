@@ -45,13 +45,6 @@ In order for this program to work correctly the folder hierchy must be as follow
 
 5. Extract the included .zip file to the 'PCSX2Steam' folder
    
-Important Notes
-----------------------
-
-- The Game/ROM path CANNOT have spaces! Make sure your game paths and names comply. (ex. G:/Playstation2/Games/God_of_War.iso)
-
-- If ROM's are moved after the launcher is made, the launcher will no longer work. You'll have to create a new launcher with the ROM's new location
-
 **Creating Your Game Launchers**
 --------------------------------
 
@@ -70,6 +63,14 @@ Important Notes
 ####The launcher can be found in the Emulators 'Home' folder. ex.( [PS2]Game Name.exe )
 
 ####It's as simple as that. You can repeat the process for all your games and add them to your steam library!
+
+**Important Notes**
+--------------------
+
+- The Game/ROM path CANNOT have spaces! Make sure your game paths and names comply. (ex. G:/Playstation2/Games/God_of_War.iso)
+
+- If ROM's are moved after the launcher is made, the launcher will no longer work. You'll have to create a new launcher with the ROM's new location
+
 
 **Contact Me**
 ---------------
