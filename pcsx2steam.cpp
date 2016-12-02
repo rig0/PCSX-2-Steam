@@ -40,7 +40,16 @@ PCSX2Steam::PCSX2Steam(QWidget *parent) :
     if (FileStatus("..\\Emulator") == 0)
     {
         QMessageBox msgBox;
-        msgBox.critical(0,"\"Emulator\" Directory not found!","\"..\\Emulator\" directory does not exist! Please read the Readme file");
+        msgBox.critical(0,"\"Emulator\" Directory not found!","\"..\\Emulator\" directory does not exist! Please read the Readme file.");
+        exit (EXIT_FAILURE);
+    }
+
+    //-----CHECK IF 'PCSX2.EXE' FILE EXISTS-----//
+
+    if (FileStatus("..\\Emulator\\pcsx2.exe") == 0)
+    {
+        QMessageBox msgBox;
+        msgBox.critical(0,"\"pcsx2.exe\" not found!","\"pcsx2.exe\" not found! \n\nMake sure your folder hierarchy is correct. Please refer to the ReadMe file.");
         exit (EXIT_FAILURE);
     }
 
@@ -218,8 +227,7 @@ string ExePath() {
 
 void PCSX2Steam::compileExe()
 {
-    //-----Check if "src" directory exists. If it doesn't, create it.
-    //-----If it cannot be created, throw an error and close.
+    //-----CREATES 'SRC' FOLDER IF IT DOESN'T EXIST-----//
 
     string srcDir = "src";
     if (CreateDirectoryA(srcDir.c_str(), NULL) ||
@@ -230,7 +238,7 @@ void PCSX2Steam::compileExe()
     else
     {
         QMessageBox msgBox;
-        msgBox.critical(0,"Oops!","Could not create temporary directory. Exiting.");
+        msgBox.critical(0,"Oops!","Could not create temporary 'src' directory. Exiting.");
         exit (EXIT_FAILURE);
     }
 
@@ -340,7 +348,7 @@ void PCSX2Steam::compileExe()
     {
         QMessageBox msgBox;
         msgBox.critical(0,"Error","There was an error compiling. "
-                                "\n\nHint: Make sure there are no illegal characters in the Name field \n\nex. \\ / : ? \" < > | * )");
+                                "Email your issue to RamboRigs90@gmail.com");
     }
     else
     {
