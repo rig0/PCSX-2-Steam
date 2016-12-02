@@ -12,7 +12,7 @@ Creates an executable of your Playstation 2 games that plays nice with Steam.
 
 - *Compiles an executable that seamlessly launches your Playstation 2 Games/ROMs*
 
-- *Launches pcsx2.exe with no gui, fullboot and your game's path as an argument*
+- *Launches pcsx2.exe with --no gui, --fullboot and your ROM's path as an argument*
 
 - *Allows user to add a custom icon to the .exe*
 
@@ -24,7 +24,6 @@ Creates an executable of your Playstation 2 games that plays nice with Steam.
 
 **Requirements**
 ----------------
-
 - Working Pcsx2 Playsation 2 Emulator
 
 - Games/ROMs for your Emulator 
@@ -41,16 +40,15 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 3. Rename the pcsx2-xxxx.exe to pcsx2.exe
 
-4. Copy your games/roms to 'Games' folder
+4. Copy your ROMs to 'Games' folder
 
-5. Extract the included .zip file to the 'PCSX2Steam' folder
+5. Extract the contents of the included .zip file to the 'PCSX2Steam' folder
    
 **Creating Your Game Launchers**
 --------------------------------
-
 1. Open up PCSX-2-Steam.exe
 
-2. Enter the Game's Title in the 'Name' field
+2. Enter the Game's Title in the 'NAME' field
 
 3. Click on the 'ICON' button to browse for an icon. (You can opt to not use a custom icon and a generic icon will be used.)
 
@@ -66,7 +64,6 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 **Important Notes**
 --------------------
-
 - The Game/ROM path CANNOT have spaces! Make sure your game paths and names comply. (ex. G:/Playstation2/Games/God_of_War.iso)
 
 - If ROM's are moved after the launcher is made, the launcher will no longer work. You'll have to create a new launcher with the ROM's new location
@@ -74,7 +71,6 @@ In order for this program to work correctly the folder hierarchy must be as foll
 
 **Contact Me**
 ---------------
-
 If you have any questions, requests, or find bugs, email me: RamboRigs90@gmail.com
 
 
